@@ -25,10 +25,9 @@ modules:
         properties:
           srv-url: ${default-url}
     requires:
-      - name: incidents-attachments
-      - name: incidents-auditlog
       - name: incidents-db
       - name: incidents-destination
+      - name: incidents-auth
 
   - name: incidents-db-deployer
     type: hdb
@@ -40,18 +39,18 @@ modules:
 
   - name: incidents-app-deployer
     type: com.sap.application.content
-    path: gen
+    path: .
     requires:
       - name: incidents-html5-repo-host
         parameters:
           content-target: true
     build-parameters:
-      build-result: app/
+      build-result: resources/
       requires:
         - name: incidentsincidents
           artifacts:
             - incidents.zip
-          target-path: app/
+          target-path: resources/
 
   - name: incidentsincidents
     type: html5
@@ -98,16 +97,6 @@ modules:
               sap.cloud.service: incidents.service
 
 resources:
-  - name: incidents-attachments
-    type: org.cloudfoundry.managed-service
-    parameters:
-      service: objectstore
-      service-plan: standard
-  - name: incidents-auditlog
-    type: org.cloudfoundry.managed-service
-    parameters:
-      service: auditlog
-      service-plan: premium
   - name: incidents-db
     type: com.sap.xs.hdi-container
     parameters:
@@ -154,3 +143,12 @@ resources:
     parameters:
       service: html5-apps-repo
       service-plan: app-runtime
+  - name: incidents-auth
+    type: org.cloudfoundry.managed-service
+    parameters:
+      service: xsuaa
+      service-plan: application
+      path: ./xs-security.json
+      config:
+        xsappname: incidents-${org}-${space}
+        tenant-mode: dedicated

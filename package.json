@@ -13,7 +13,8 @@
   },
   "dependencies": {
     "@sap/cds": ">=8",
-    "express": "^4"
+    "express": "^4",
+    "@sap/xssec": "^4"
   },
   "devDependencies": {
     "@cap-js/attachments": "^2",
@@ -53,7 +54,8 @@
               ]
             }
           }
-        }
+        },
+        "kind": "xsuaa"
       },
       "destinations": true,
       "html5-runtime": true,
