@@ -54,7 +54,10 @@
             }
           }
         }
-      }
+      },
+      "destinations": true,
+      "html5-runtime": true,
+      "workzone": true
     }
   },
   "private": true
